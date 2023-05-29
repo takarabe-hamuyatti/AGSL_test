@@ -9,17 +9,15 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
 
-private const val COLOR_SHADER_SRC2 = """
+private const val COLOR_SHADER_SRC = """
             uniform float2 iResolution;
             uniform float iTime;
             uniform float iDuration;
             half4 main(in float2 fragCoord) {
                 float2 scaled = abs(1.0-mod(fragCoord/iResolution.xy+iTime/(iDuration/2.0),2.0));
-                return half4(scaled, 0, 1.0);
+                return half3(scaled, 0, 1.0);
             }
         """
-
-private const val DURATION = 4000f
 
 class AnimatedBackground @JvmOverloads constructor(
     context: Context,
@@ -27,8 +25,9 @@ class AnimatedBackground @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr) {
 
-    private val animatedShader = RuntimeShader(COLOR_SHADER_SRC2)
+    private val animatedShader = RuntimeShader(COLOR_SHADER_SRC)
     private val paint = Paint()
+    private val DURATION = 4000f
 
     init {
         animatedShader.setFloatUniform("iDuration", DURATION)

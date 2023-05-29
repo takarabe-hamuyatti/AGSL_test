@@ -9,16 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
 
-
-private const val COLOR_SHADER_SRC =
-    """uniform float2 iResolution;
-   half4 main(float2 fragCoord) {
-      float2 scaled = fragCoord/iResolution.xy;
-      return half4(scaled, 0, 1);
-   }"""
-
-
-private const val COLOR_SHADER_SRC2 = """
+private const val COLOR_SHADER_SRC = """
             uniform float2 iResolution;
             uniform float iTime;
             uniform float iDuration;
@@ -36,8 +27,7 @@ class AnimateText @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr) {
 
-    // private val fixedColorShader = RuntimeShader(COLOR_SHADER_SRC)
-    private val animatedShader = RuntimeShader(COLOR_SHADER_SRC2)
+    private val animatedShader = RuntimeShader(COLOR_SHADER_SRC)
     private val paint = Paint()
 
     init {
@@ -53,7 +43,7 @@ class AnimateText @JvmOverloads constructor(
             invalidate()
         }
         paint.shader = animatedShader
-        paint.textSize = 220f
+        paint.textSize = 400f
 
         valueCreator.start()
     }
@@ -61,7 +51,7 @@ class AnimateText @JvmOverloads constructor(
     override fun onDrawForeground(canvas: Canvas?) {
         canvas?.let {
             animatedShader.setFloatUniform("iResolution", width.toFloat(), height.toFloat())
-            canvas.drawText("hello", 300f, 300f, paint)
+            canvas.drawText("hello", 160f, 700f, paint)
         }
     }
 }
